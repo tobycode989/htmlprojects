@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Project</title>
+    <style>
+        * {
+            margin: 0;
+            outline: none;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 250px;
+            background: #121212;
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+        }
+        .sidebar h2 {
+            margin-bottom: 20px;
+        }
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+        .nav-links li {
+            margin: 15px 0;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            display: block;
+            padding: 10px;
+            background: #1e1e1e;
+            border-radius: 5px;
+            transition: background 0.3s, border 0.3s;
+            border: 2px solid transparent;
+        }
+        .nav-links a:hover {
+            background: #333;
+        }
+        .nav-links a:hover {
+            border: 2px solid #007bff;
+            background: #1e1e1e;
+        }
+        .nav-links a.active {
+            background: #007bff;
+            border: 2px solid #007bff;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 40px;
+            flex-grow: 1;
+            background: linear-gradient(to right, #e3f2fd, #f9fbe7);
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .content h1 {
+            font-size: 2.5rem;
+            color: #121212;
+        }
+        .content p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .form-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-container input, .form-container textarea {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .food-item {
+            text-align: center;
+        }
+        .food-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .food-item h3 {
+            margin: 10px 0 5px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        .food-item p {
+            font-size: 1rem;
+            color: #666;
+        }
+        .food-menu-heading {
+            text-align:center;
+            color:black;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll(".nav-links a");
+            links.forEach(link => {
+                link.addEventListener("click", function(event) {
+                    links.forEach(l => l.classList.remove("active"));
+                    this.classList.add("active");
+                });
+            });
+            const buttons = document.querySelectorAll(".button");
+            const formContainer = document.querySelector(".form-container");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", (event) => {
+                    formContainer.innerHTML = ""; // Clear previous form
+                    formContainer.style.display = "block";
+
+                    if (event.target.textContent === "START YOUR ORDER") {
+                        formContainer.innerHTML = `
+                            <input type="text" placeholder="Drink">
+                            <input type="text" placeholder="Starter">
+                            <input type="text" placeholder="Main Course">
+                            <input type="text" placeholder="Dessert">
+                            <input type="text" placeholder="Order Details">
+        <input type="button" class="submit-order" style="background: greenyellow; color: black; border: none; padding: 10px 20px; margin: 0px; cursor: pointer; border-radius: 5px; transition: background 0.3s;" value="Submit Order">
+                        `;
+                        const submitOrderButton = formContainer.querySelector(".submit-order");
+                        submitOrderButton.addEventListener("click", () => {
+    formContainer.innerHTML = `
+        <p>Thank you for your order! Your drinks shall be with you shortly whilst we work on your food!</p>
+        <div class="order-details" style="margin-top: 20px;">
+            <h2>Order Details</h2>
+            <p>Drink: ${formContainer.querySelector("input[placeholder='Drink']").value}</p>
+            <p>Starter: ${formContainer.querySelector("input[placeholder='Starter']").value}</p>
+            <p>Main Course: ${formContainer.querySelector("input[placeholder='Main Course']").value}</p>
+            <p>Dessert: ${formContainer.querySelector("input[placeholder='Dessert']").value}</p>
+            <p>Order Details: ${formContainer.querySelector("input[placeholder='Order Details']").value}</p>
+        </div>
+        <div style="margin-top: 30px">
+            <p style="font-size: 17px;"> if you'd like to leave a review, please press the "Leave review" button at the top of the page!</p>
+        </div>
+    `;
+});
+                    } else if (event.target.textContent === "EARN POINTS") {
+                        formContainer.innerHTML = `
+<p style="color: black; font-size: 16px; font-weight: normal;">Join our membership program to earn points on every purchase!</p>                            <input type="text" placeholder="Name">
+                            <input type="text" placeholder="Email">
+                            <input type="text" placeholder="Telephone Number">
+                        `;
+                    } else if (event.target.textContent === "TODAY'S DEALS") {
+                        formContainer.innerHTML = `
+                            <input type="text" placeholder="Email">
+                            <input type="text" placeholder="Phone">
+                        `;
+                    } else if (event.target.textContent === "LEAVE A REVIEW") {
+                        formContainer.innerHTML = `
+                            <input type="text" placeholder="Name">                            <textarea placeholder="Review"></textarea>
+                            <input type="button" class="submit_review" style="background: greenyellow; color: black; border: none; padding: 10px 20px; margin: 0px; cursor: pointer; border-radius: 5px; transition: background 0.3s;" value="Submit Review">
+                        `;
+                        const submitReviewButton = formContainer.querySelector(".submit_review");
+                        submitReviewButton.addEventListener("click", () => {
+                            formContainer.innerHTML = `
+                                <p>Thank you for your review! We appreciate your feedback!</p>
+                            `;
+                        });
+                    }
+                });
+            });
+            const foodMenuLink = document.querySelector(".nav-links a[href='#custom2']");
+            foodMenuLink.addEventListener("click", () => {
+                formContainer.innerHTML = `
+                    <h2 class="food-menu-heading">Food Menu</h2>
+                    <div class="food-grid">
+                        <div class="food-item">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Pizza-3007395.jpg" alt="Food">
+                            <h3>Big Boy Pizza</h3>
+                            <p>£10.00</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2021/09/beef-burger.jpg?im=AspectCrop=(16,9);" alt="Food">
+                            <h3>Greasy Burger with Chipa</h3>
+                            <p>£15.00</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="https://via.placeholder.com/200" alt="Food">
+                            <h3>Food Item 3</h3>
+                            <p>£20.00</p>
+                        </div>
+                        <div class="food-item">
+                            <img src="https://via.placeholder.com/200" alt="Food">
+                            <h3>Food Item 4</h3>
+                            <p>£25.00</p>
+                        </div>
+                    </div>
+                `; 
+                formContainer.style.display = "block";
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Website Project</h2>
+        <ul class="nav-links">
+            <li><a href="#custom1" class="active">Home</a></li>
+            <li><a href="#custom2">Food Menu</a></li>
+            <li><a href="#custom3">Drinks Menu</a></li>
+            <li><a href="#custom4">Kids Menu</a></li>
+            <li><a href="#custom5">About us</a></li>
+        </ul>
+    </div>
+    <div class="content" id="content">
+        <h1>Welcome to fast foods!</h1>
+        <p>This is an ongoing website project whilst learning HTML.</p>
+        <div class="buttons">
+            <button class="button">START YOUR ORDER</button>
+            <button class="button">EARN POINTS</button>
+            <button class="button">TODAY'S DEALS</button>
+            <button class="button">LEAVE A REVIEW</button>
+        </div>
+        <div class="form-container">
+            <input type="text" placeholder="Drink">
+            <input type="text" placeholder="Starter">
+            <input type="text" placeholder="Main Course">
+            <input type="text" placeholder="Dessert">
+            <input type="text" placeholder="Order Details">
+            <input type="button" style="background: greenyellow; color: black; border: none; padding: 10px 20px; margin: 0px; cursor: pointer; border-radius: 5px; transition: background 0.3s;" value="Submit Order">
+        </div>
+
+</body>
+</html>
